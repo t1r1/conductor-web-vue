@@ -49,6 +49,12 @@ const Api = {
   Account: {
     Me: () => {
       return axios.get('/api/v1/account/me')
+    },
+    Authenticate: (username, password) => {
+      let payload = {
+        username, password
+      }
+      return axios.post('/api/v1/account/authenticate', payload)
     }
   },
   Open: {

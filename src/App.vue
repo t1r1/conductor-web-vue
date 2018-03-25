@@ -1,15 +1,35 @@
 <template>
   <div id="app">
-    <layout/>
+    <div v-if="authState === 'authenticating'">Loading</div>
+    <login-page v-else-if="authState === 'login'"/>
+    <layout v-else/>
   </div>
 </template>
 
 <script>
 import Layout from '@/components/Page/Layout'
+import LoginPage from '@/components/Page/LoginPage'
+import Api from '@/api'
+import { mapState } from 'vuex'
 export default {
   name: 'App',
   components: {
-    Layout
+    Layout,
+    LoginPage
+  },
+  computed: {
+    ...mapState(['authState'])
+  },
+  created () {
+    Api.Account.Me().then(response => {
+      let user = response.data.data
+      this.$store.commit('setUser', user)
+      this.$store.commit('setAuthState', 'authenticated')
+    }).catch(err => {
+      if (err.response.data.state === 'logged out') {
+        this.$store.commit('setAuthState', 'login')
+      }
+    })
   }
 }
 </script>
@@ -176,7 +196,6 @@ table.ModelList > tbody > tr:hover > td { background-color: #f3f3fc; }
   border-bottom: 1px solid #eee;
   margin-bottom: 20px;
 }
-
 
 .Form_FieldLabel, .Card_FieldLabel {
   text-transform: uppercase;

@@ -333,7 +333,7 @@
                 </tbody>
             </table>
             <pagination/>
-        </main> 
+        </main>
     </div>
 </template>
 
@@ -341,7 +341,7 @@
 import Pagination from '@/components/Common/Pagination'
 export default {
   components: {
-      Pagination
+    Pagination
   }
 }
 </script>

@@ -9,7 +9,6 @@ import Api from '@/api'
 export default {
   created () {
     Api.Open.AppInfo().then(response => {
-      console.log(response.data)
       let { conductor_info } = response.data
       this.conductorVersion = conductor_info.app.version
       this.flaskVersion = conductor_info.flask_version
